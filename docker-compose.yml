@@ -1,0 +1,27 @@
+version: "3.7"
+services:
+    web:
+        container_name: youcisian-backend
+        build: .
+        ports:
+            - 5100:5100
+        depends_on:
+            - mongodb
+        environment:
+            - ENV=Development
+        volumes:
+            - .:/code
+    mongodb:
+        image: mongo
+        container_name: youcisian-mongodb
+        ports:
+            - 27017:27017
+        volumes:
+            - db-data:/data/db
+    mongo-seed:
+        build: ./mongo-seed
+        links:
+            - mongodb
+
+volumes:
+    db-data:
